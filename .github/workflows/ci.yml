@@ -1,0 +1,45 @@
+# Task 6.6 (apply) — VisionGuard CI: install deps, lint, test, build the Docker image.
+# Secrets (e.g. DAGSHUB_TOKEN if a job ever needs it) live in GitHub:
+#   repo Settings -> Secrets and variables -> Actions, used as ${{ secrets.NAME }}.
+# They must never be written in this file: the file is public in the repo and its
+# history, while GitHub stores secrets encrypted and masks them in logs.
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install dependencies (no TensorFlow needed for the unit tests)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-serve.txt pytest==8.3.5 ruff==0.11.8
+      - name: Lint
+        run: ruff check .
+      - name: Test
+        run: pytest -q
+
+  docker:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build web image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: visionguard-web:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Validate compose file
+        run: cp .env.example .env && docker compose config --quiet

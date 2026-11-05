@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Result #{{ r.id }}{% endblock %}
+{% block content %}
+{% set is_ai = r.label == 'AI-generated' %}
+<section class="card result">
+  <div class="result-grid">
+    {% if preview %}
+    <img class="result-img" src="{{ preview }}" alt="uploaded image preview">
+    {% else %}
+    <div class="result-img placeholder">image not stored</div>
+    {% endif %}
+    <div>
+      <p class="muted">Request #{{ r.id }} · {{ r.filename }}</p>
+      <h1 class="verdict {{ 'ai' if is_ai else 'real' }}">{{ r.label }}</h1>
+      <p class="conf">Confidence: <strong>{{ '%.1f'|format(r.confidence * 100) }}%</strong></p>
+      <div class="meter" title="p(AI) = {{ '%.3f'|format(r.p_ai) }}">
+        <div class="meter-fill {{ 'ai' if is_ai else 'real' }}" style="width: {{ (r.p_ai * 100)|round(1) }}%"></div>
+        <div class="meter-thr" style="left: {{ (r.threshold * 100)|round(1) }}%"></div>
+      </div>
+      <div class="meter-labels"><span>Real</span><span>threshold {{ '%.2f'|format(r.threshold) }}</span><span>AI</span></div>
+      <table class="kv">
+        <tr><th>p(AI)</th><td>{{ '%.4f'|format(r.p_ai) }}</td></tr>
+        <tr><th>Model</th><td>{{ r.model_name }} v{{ r.model_version }} ({{ r.inference_mode }})</td></tr>
+        <tr><th>Image</th><td>{{ r.width }}×{{ r.height }} px, {{ (r.file_size / 1024)|round(1) }} KB</td></tr>
+        <tr><th>Time</th><td>{{ r.created_at.strftime('%Y-%m-%d %H:%M:%S') }} UTC · {{ r.latency_ms }} ms</td></tr>
+      </table>
+    </div>
+  </div>
+  <p class="caveat"><strong>Caveat:</strong> {{ caveat }}</p>
+  <a class="btn" href="{{ url_for('main.index') }}">Analyse another image</a>
+  <a class="btn secondary" href="{{ url_for('main.history') }}">View history</a>
+</section>
+{% endblock %}

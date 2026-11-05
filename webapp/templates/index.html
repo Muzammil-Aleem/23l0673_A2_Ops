@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Analyse an image{% endblock %}
+{% block content %}
+<section class="card hero">
+  <h1>Is this image AI-generated or real?</h1>
+  <p class="muted">Upload a photo or artwork. The image is analysed in memory and is <strong>not stored</strong>;
+    only the verdict is kept in the history.</p>
+
+  <form action="{{ url_for('main.predict') }}" method="post" enctype="multipart/form-data" class="upload" id="upload-form">
+    <label class="dropzone" id="dropzone">
+      <input type="file" name="image" id="image" accept="{% for e in allowed %}.{{ e }}{{ ',' if not loop.last }}{% endfor %}" required>
+      <img id="preview" alt="" hidden>
+      <span id="dz-text">Click to choose an image, or drag it here</span>
+      <small class="muted">{{ allowed|join(', ') }} · up to {{ '%.0f'|format(max_mb) }} MB</small>
+    </label>
+    <button type="submit" class="btn" id="submit-btn">Analyse image</button>
+  </form>
+</section>
+
+<script>
+  const input = document.getElementById('image');
+  const dz = document.getElementById('dropzone');
+  const preview = document.getElementById('preview');
+  const text = document.getElementById('dz-text');
+  function show(file) {
+    if (!file) return;
+    text.textContent = file.name;
+    if (file.type.startsWith('image/')) {
+      preview.src = URL.createObjectURL(file);
+      preview.hidden = false;
+    }
+  }
+  input.addEventListener('change', () => show(input.files[0]));
+  ['dragover', 'dragenter'].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.add('drag'); }));
+  ['dragleave', 'drop'].forEach(ev => dz.addEventListener(ev, () => dz.classList.remove('drag')));
+  dz.addEventListener('drop', e => { e.preventDefault(); input.files = e.dataTransfer.files; show(input.files[0]); });
+  document.getElementById('upload-form').addEventListener('submit', () => {
+    const b = document.getElementById('submit-btn'); b.disabled = true; b.textContent = 'Analysing…';
+  });
+</script>
+{% endblock %}

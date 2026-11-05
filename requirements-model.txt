@@ -1,0 +1,4 @@
+# CPU-only TensorFlow for serving. `tensorflow-cpu` skips the CUDA/cuDNN wheels,
+# which makes the image hundreds of MB smaller; inference on one image at a time
+# does not need a GPU.
+tensorflow-cpu==2.19.0

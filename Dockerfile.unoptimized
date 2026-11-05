@@ -1,0 +1,12 @@
+# Task 6.4 "BEFORE" image — deliberately naive, only used to measure the size difference.
+#   docker build -f Dockerfile.unoptimized -t visionguard-web:before .
+#   docker build -t visionguard-web:after .
+#   docker images visionguard-web
+# Differences vs ./Dockerfile: full python base, full `tensorflow` (with CUDA libs),
+# pip cache kept, source copied before installing deps (no cache benefit), runs as root.
+FROM python:3.11
+
+WORKDIR /app
+COPY . .
+RUN pip install -r requirements-serve.txt tensorflow==2.19.0
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "wsgi:app"]

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "python scripts/download_deploy_model.py",
+  "functions": {
+    "app.py": {
+      "maxDuration": 300,
+      "includeFiles": "models/**"
+    }
+  }
+}

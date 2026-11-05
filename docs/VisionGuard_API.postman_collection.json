@@ -1,0 +1,52 @@
+{
+  "info": {
+    "name": "VisionGuard Model API",
+    "description": "Task 7 — set the collection variables base_url and api_key, then pick an image file in the 'Predict' body.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "https://YOUR-SERVICE-URL" },
+    { "key": "api_key", "value": "PASTE-KEY-HERE" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": { "method": "GET", "url": "{{base_url}}/health" }
+    },
+    {
+      "name": "Predict (multipart)",
+      "event": [{
+        "listen": "test",
+        "script": { "exec": [
+          "pm.test('status 200', () => pm.response.to.have.status(200));",
+          "const j = pm.response.json();",
+          "pm.test('has label + confidence', () => { pm.expect(j).to.have.property('label'); pm.expect(j.confidence).to.be.within(0, 1); });",
+          "console.log(j);"
+        ]}
+      }],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "X-API-Key", "value": "{{api_key}}" }],
+        "body": { "mode": "formdata", "formdata": [{ "key": "file", "type": "file", "src": "" }] },
+        "url": "{{base_url}}/predict"
+      }
+    },
+    {
+      "name": "Predict without key (expect 401)",
+      "request": {
+        "method": "POST",
+        "body": { "mode": "formdata", "formdata": [{ "key": "file", "type": "file", "src": "" }] },
+        "url": "{{base_url}}/predict"
+      }
+    },
+    {
+      "name": "Predict non-image (expect 422)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "X-API-Key", "value": "{{api_key}}" }],
+        "body": { "mode": "raw", "raw": "this is not an image" },
+        "url": "{{base_url}}/predict"
+      }
+    }
+  ]
+}

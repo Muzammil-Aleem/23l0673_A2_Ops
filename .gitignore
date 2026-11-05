@@ -1,0 +1,31 @@
+# secrets
+.env
+.env.*
+!.env.example
+kaggle.json
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# data & models — versioned with DVC / MLflow, not Git
+/data/raw
+/models/*
+!/models/.gitkeep
+mlruns/
+mlartifacts/
+*.db
+instance/
+labs/_tuner/
+reports/_tuner/
+reports/runs/*/best.weights.h5
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

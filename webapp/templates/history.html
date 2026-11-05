@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}History{% endblock %}
+{% block content %}
+<section class="card">
+  <div class="history-head">
+    <div>
+      <h1>Prediction history</h1>
+      <p class="muted">{{ total }} requests logged · {{ n_ai }} judged AI-generated · {{ total - n_ai }} judged real</p>
+    </div>
+    <div class="filters">
+      <a href="{{ url_for('main.history') }}" class="{{ 'active' if not label }}">All</a>
+      <a href="{{ url_for('main.history', label='AI-generated') }}" class="{{ 'active' if label == 'AI-generated' }}">AI</a>
+      <a href="{{ url_for('main.history', label='Real') }}" class="{{ 'active' if label == 'Real' }}">Real</a>
+    </div>
+  </div>
+  {% if pages.items %}
+  <div class="table-wrap">
+  <table class="history">
+    <thead>
+      <tr><th>#</th><th>When (UTC)</th><th>File</th><th>Decision</th><th>Confidence</th><th>p(AI)</th><th>Threshold</th><th>Model</th><th>Mode</th><th>Latency</th></tr>
+    </thead>
+    <tbody>
+    {% for r in pages.items %}
+      <tr>
+        <td><a href="{{ url_for('main.result', rid=r.id) }}">{{ r.id }}</a></td>
+        <td>{{ r.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+        <td class="fname" title="{{ r.file_sha256 }}">{{ r.filename }}</td>
+        <td><span class="pill {{ 'ai' if r.label == 'AI-generated' else 'real' }}">{{ r.label }}</span></td>
+        <td>{{ '%.1f'|format(r.confidence * 100) }}%</td>
+        <td>{{ '%.3f'|format(r.p_ai) }}</td>
+        <td>{{ '%.2f'|format(r.threshold) }}</td>
+        <td>{{ r.model_name }} v{{ r.model_version }}</td>
+        <td>{{ r.inference_mode }}</td>
+        <td>{{ r.latency_ms }} ms</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <div class="pager">
+    {% if pages.has_prev %}<a href="{{ url_for('main.history', page=pages.prev_num, label=label) }}">← Newer</a>{% endif %}
+    <span class="muted">page {{ pages.page }} of {{ pages.pages }}</span>
+    {% if pages.has_next %}<a href="{{ url_for('main.history', page=pages.next_num, label=label) }}">Older →</a>{% endif %}
+  </div>
+  {% else %}
+  <p class="muted">No predictions yet. <a href="{{ url_for('main.index') }}">Analyse an image</a>.</p>
+  {% endif %}
+</section>
+{% endblock %}

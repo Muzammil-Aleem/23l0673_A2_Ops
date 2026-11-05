@@ -1,0 +1,22 @@
+# BuildKit uses this file (named <Dockerfile>.dockerignore) instead of the root .dockerignore
+# for model_api/Dockerfile. Unlike the web image, this one needs models/champion.*
+.git
+.github
+.env
+.env.*
+**/__pycache__
+*.pyc
+.venv
+venv
+data/
+mlruns/
+mlartifacts/
+reports/
+labs/
+docs/
+tests/
+webapp/
+*.db
+models/*
+!models/champion.keras
+!models/champion.json
