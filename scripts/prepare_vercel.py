@@ -18,6 +18,15 @@ def main():
     shutil.copy2(root / "scripts" / "download_deploy_model.py", scripts / "download_deploy_model.py")
     shutil.copy2(root / "model_api" / "requirements.txt", target / "requirements.txt")
     (target / ".python-version").write_text("3.12\n", encoding="utf-8")
+    # Vercel's uv resolver otherwise considers Windows too, where the CPU
+    # TensorFlow package can reference an unavailable tensorflow-intel release.
+    (target / "pyproject.toml").write_text(
+        '[project]\n'
+        'name = "visionguard-model-api"\n'
+        'version = "1.0.0"\n'
+        'requires-python = ">=3.12,<3.13"\n\n'
+        '[tool.uv]\n'
+        'environments = ["sys_platform == \\\"linux\\\""]\n', encoding="utf-8")
     (target / ".gitignore").write_text("models/\n.env\n.vercel/\n__pycache__/\n", encoding="utf-8")
     (target / "app.py").write_text(
         '"""Vercel entrypoint: model files are downloaded during the build."""\n'
