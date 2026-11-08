@@ -1,0 +1,20 @@
+{
+  "run_id": "c9526b9346f247aaaa2e8100db61120b",
+  "run_name": "mobilenet_lower_lr",
+  "model_type": "mobilenetv2",
+  "img_size": 224,
+  "threshold": 0.7496124505996704,
+  "best_epoch": 29,
+  "test_metrics": {
+    "accuracy": 0.6870748299319728,
+    "precision": 0.8431372549019608,
+    "recall": 0.5308641975308642,
+    "f1": 0.6515151515151515,
+    "roc_auc": 0.8058361391694725,
+    "false_positive_rate": 0.12121212121212122,
+    "tn": 58,
+    "fp": 8,
+    "fn": 38,
+    "tp": 43
+  }
+}

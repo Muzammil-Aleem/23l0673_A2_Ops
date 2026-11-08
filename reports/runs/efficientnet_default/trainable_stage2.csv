@@ -1,0 +1,9 @@
+layer,trainable_params
+efficientnetb0/block7a_expand_conv,221184
+efficientnetb0/block7a_dwconv,10368
+efficientnetb0/block7a_se_reduce,55344
+efficientnetb0/block7a_se_expand,56448
+efficientnetb0/block7a_project_conv,368640
+efficientnetb0/top_conv,409600
+head_dense,163968
+p_ai,129

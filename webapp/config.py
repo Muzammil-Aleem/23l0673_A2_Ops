@@ -10,7 +10,7 @@ def _bool(name, default=False):
 
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY", "dev-only-change-me")
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "sqlite:///visionguard.db")
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "").strip() or "sqlite:///visionguard.db"
     SQLALCHEMY_ENGINE_OPTIONS = {"pool_pre_ping": True}
     MAX_UPLOAD_MB = float(os.getenv("MAX_UPLOAD_MB", "5"))
     MAX_CONTENT_LENGTH = int(MAX_UPLOAD_MB * 1024 * 1024)  # Flask rejects bigger bodies with 413

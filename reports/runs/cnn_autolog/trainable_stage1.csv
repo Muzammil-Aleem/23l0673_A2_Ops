@@ -1,0 +1,10 @@
+layer,trainable_params
+conv1,864
+bn1,64
+conv2,18432
+bn2,128
+conv3,73728
+bn3,256
+conv4,294912
+bn4,512
+p_ai,257

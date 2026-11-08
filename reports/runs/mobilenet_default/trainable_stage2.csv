@@ -1,0 +1,7 @@
+layer,trainable_params
+mobilenetv2_1.00_224/block_16_expand,153600
+mobilenetv2_1.00_224/block_16_depthwise,8640
+mobilenetv2_1.00_224/block_16_project,307200
+mobilenetv2_1.00_224/Conv_1,409600
+head_dense,163968
+p_ai,129

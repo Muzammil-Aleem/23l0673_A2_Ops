@@ -1,0 +1,20 @@
+{
+  "run_id": "e7b254ff874d4731bb72c6c06ed233e2",
+  "run_name": "mobilenet_default",
+  "model_type": "mobilenetv2",
+  "img_size": 224,
+  "threshold": 0.6328974962234497,
+  "best_epoch": 23,
+  "test_metrics": {
+    "accuracy": 0.7210884353741497,
+    "precision": 0.7857142857142857,
+    "recall": 0.6790123456790124,
+    "f1": 0.7284768211920529,
+    "roc_auc": 0.8138795361017583,
+    "false_positive_rate": 0.22727272727272727,
+    "tn": 51,
+    "fp": 15,
+    "fn": 26,
+    "tp": 55
+  }
+}

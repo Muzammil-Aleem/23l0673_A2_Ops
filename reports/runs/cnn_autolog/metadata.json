@@ -1,0 +1,20 @@
+{
+  "run_id": "88a54950b3cf4cbaa38521b8acd70ab2",
+  "run_name": "cnn_autolog",
+  "model_type": "cnn",
+  "img_size": 224,
+  "threshold": 0.7864111661911011,
+  "best_epoch": 23,
+  "test_metrics": {
+    "accuracy": 0.5578231292517006,
+    "precision": 0.7222222222222222,
+    "recall": 0.32098765432098764,
+    "f1": 0.4444444444444444,
+    "roc_auc": 0.683875794986906,
+    "false_positive_rate": 0.15151515151515152,
+    "tn": 56,
+    "fp": 10,
+    "fn": 55,
+    "tp": 26
+  }
+}

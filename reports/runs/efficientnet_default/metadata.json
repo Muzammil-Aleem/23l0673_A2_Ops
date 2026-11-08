@@ -1,0 +1,20 @@
+{
+  "run_id": "ea4a539886044ec395988bcc80c46afd",
+  "run_name": "efficientnet_default",
+  "model_type": "efficientnetb0",
+  "img_size": 224,
+  "threshold": 0.7266173362731934,
+  "best_epoch": 25,
+  "test_metrics": {
+    "accuracy": 0.7482993197278912,
+    "precision": 0.9583333333333334,
+    "recall": 0.5679012345679012,
+    "f1": 0.7131782945736435,
+    "roc_auc": 0.8823419378974934,
+    "false_positive_rate": 0.030303030303030304,
+    "tn": 64,
+    "fp": 2,
+    "fn": 35,
+    "tp": 46
+  }
+}
