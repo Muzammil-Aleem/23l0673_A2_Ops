@@ -25,6 +25,13 @@ def main():
         'name = "visionguard-model-api"\n'
         'version = "1.0.0"\n'
         'requires-python = ">=3.12,<3.13"\n\n'
+        'dependencies = [\n'
+        '    "flask==3.1.1",\n'
+        '    "gunicorn==23.0.0",\n'
+        '    "pillow==11.2.1",\n'
+        '    "numpy==2.1.3",\n'
+        '    "tensorflow-cpu==2.19.0",\n'
+        ']\n\n'
         '[tool.uv]\n'
         'environments = ["sys_platform == \\\"linux\\\""]\n', encoding="utf-8")
     (target / ".gitignore").write_text("models/\n.env\n.vercel/\n__pycache__/\n", encoding="utf-8")
